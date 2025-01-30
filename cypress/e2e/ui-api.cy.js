@@ -2,7 +2,7 @@
 
 import SignUpPage from '../Pages/SignUpPage';
 import ProductPage from '../Pages/ProductPage';
-import ProductDetailPage from '../Pages/ProductDetailPage'  // Import the new page object
+import ProductDetailPage from '../Pages/ProductDetailPage'  
 import CartPage from '../Pages/CartPage';
 import ContactUsPage from '../Pages/ContactUs';
 
@@ -14,12 +14,12 @@ describe('User Sign Up Test', () => {
   beforeEach(() => {
     SignUpPage.visitHomePage();
   });
-
-  it('should successfully complete the sign-up process', () => {
+// ui testing
+  it('should successfully complete the ui testing process', () => {
     SignUpPage.goToLoginPage();
     
     const name = 'Sanzida Promi';
-    const email = 'promi1986@example.com';
+    const email = 'promi1986@gmail.com';
     SignUpPage.enterNameAndEmail(name, email);
     cy.wait(1000); 
 
@@ -169,6 +169,21 @@ cy.get('body').then(() => {
      ContactUsPage.clickHome();
 
   });
+
+// api testing
+it('should successfully complete the api testing process', () => {
+  cy.request('GET', 'https://automationexercise.com/api/brandsList').then((response) => {
+    expect(response.status).to.eq(200)
+    expect(response.body).to.include('Polo')
+    expect(response.body).to.include('Babyhug')
+    expect(response.body).to.include('Biba')
+    expect(response.body).not.to.include('Heineken')
+    expect(response.body).not.to.include('BMW')
+    expect(response.body).not.to.include('Razor')
+  })
+})
+
+
 });
 
 
